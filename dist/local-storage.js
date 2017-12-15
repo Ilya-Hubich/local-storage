@@ -1,138 +1,273 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-(function (global){
-'use strict';
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(typeof self !== 'undefined' ? self : this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
 
-var stub = require('./stub');
-var tracking = require('./tracking');
-var ls = 'localStorage' in global && global.localStorage ? global.localStorage : stub;
+"use strict";
 
-function accessor (key, value) {
-  if (arguments.length === 1) {
-    return get(key);
-  }
-  return set(key, value);
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function canAccessTop() {
+    try {
+        return !!window.top.document;
+    } catch (e) {
+        return false;
+    }
 }
 
-function get (key) {
-  return JSON.parse(ls.getItem(key));
+exports.default = canAccessTop() ? window.top : window;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _stub = __webpack_require__(2);
+
+var _stub2 = _interopRequireDefault(_stub);
+
+var _tracking = __webpack_require__(3);
+
+var _tracking2 = _interopRequireDefault(_tracking);
+
+var _global = __webpack_require__(0);
+
+var _global2 = _interopRequireDefault(_global);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ls = 'localStorage' in _global2.default && _global2.default.localStorage ? _global2.default.localStorage : _stub2.default;
+
+function accessor(key, value) {
+    if (arguments.length === 1) {
+        return get(key);
+    }
+    return set(key, value);
 }
 
-function set (key, value) {
-  try {
-    ls.setItem(key, JSON.stringify(value));
-    return true;
-  } catch (e) {
-    return false;
-  }
+function get(key) {
+    return JSON.parse(ls.getItem(key));
 }
 
-function remove (key) {
-  return ls.removeItem(key);
+function set(key, value) {
+    try {
+        ls.setItem(key, JSON.stringify(value));
+        return true;
+    } catch (e) {
+        return false;
+    }
 }
 
-function clear () {
-  return ls.clear();
+function remove(key) {
+    return ls.removeItem(key);
+}
+
+function clear() {
+    return ls.clear();
 }
 
 accessor.set = set;
 accessor.get = get;
 accessor.remove = remove;
 accessor.clear = clear;
-accessor.on = tracking.on;
-accessor.off = tracking.off;
+accessor.on = _tracking2.default.on;
+accessor.off = _tracking2.default.off;
 
-module.exports = accessor;
+exports.default = accessor;
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./stub":2,"./tracking":3}],2:[function(require,module,exports){
-'use strict';
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var ms = {};
 
-function getItem (key) {
-  return 'key' in ms ? ms[key] : null;
+function getItem(key) {
+    return key in ms ? ms[key] : null;
 }
 
-function setItem (key, value) {
-  ms[key] = value;
-  return true;
+function setItem(key, value) {
+    ms[key] = value;
+    return true;
 }
 
-function removeItem (key) {
-  var found = key in ms;
-  if (found) {
-    return delete ms[key];
-  }
-  return false;
+function removeItem(key) {
+    var found = key in ms;
+    if (found) {
+        return delete ms[key];
+    }
+    return false;
 }
 
-function clear () {
-  ms = {};
-  return true;
+function clear() {
+    ms = {};
+    return true;
 }
 
-module.exports = {
-  getItem: getItem,
-  setItem: setItem,
-  removeItem: removeItem,
-  clear: clear
+exports.default = {
+    getItem: getItem,
+    setItem: setItem,
+    removeItem: removeItem,
+    clear: clear
 };
 
-},{}],3:[function(require,module,exports){
-(function (global){
-'use strict';
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _global = __webpack_require__(0);
+
+var _global2 = _interopRequireDefault(_global);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var listeners = {};
 var listening = false;
 
-function listen () {
-  if (global.addEventListener) {
-    global.addEventListener('storage', change, false);
-  } else if (global.attachEvent) {
-    global.attachEvent('onstorage', change);
-  } else {
-    global.onstorage = change;
-  }
+function listen() {
+    if (_global2.default.addEventListener) {
+        _global2.default.addEventListener('storage', change, false);
+    } else if (_global2.default.attachEvent) {
+        _global2.default.attachEvent('onstorage', change);
+    } else {
+        _global2.default.onstorage = change;
+    }
 }
 
-function change (e) {
-  if (!e) {
-    e = global.event;
-  }
-  var all = listeners[e.key];
-  if (all) {
-    all.forEach(fire);
-  }
+function change(e) {
+    if (!e) {
+        e = _global2.default.event;
+    }
+    var all = listeners[e.key];
+    if (all) {
+        all.forEach(fire);
+    }
 
-  function fire (listener) {
-    listener(JSON.parse(e.newValue), JSON.parse(e.oldValue), e.url || e.uri);
-  }
+    function fire(listener) {
+        listener(JSON.parse(e.newValue), JSON.parse(e.oldValue), e.url || e.uri);
+    }
 }
 
-function on (key, fn) {
-  if (listeners[key]) {
-    listeners[key].push(fn);
-  } else {
-    listeners[key] = [fn];
-  }
-  if (listening === false) {
-    listen();
-  }
+function on(key, fn) {
+    if (listeners[key]) {
+        listeners[key].push(fn);
+    } else {
+        listeners[key] = [fn];
+    }
+    if (listening === false) {
+        listen();
+    }
 }
 
-function off (key, fn) {
-  var ns = listeners[key];
-  if (ns.length > 1) {
-    ns.splice(ns.indexOf(fn), 1);
-  } else {
-    listeners[key] = [];
-  }
+function off(key, fn) {
+    var ns = listeners[key];
+    if (ns.length > 1) {
+        ns.splice(ns.indexOf(fn), 1);
+    } else {
+        listeners[key] = [];
+    }
 }
 
-module.exports = {
-  on: on,
-  off: off
+exports.default = {
+    on: on,
+    off: off
 };
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}]},{},[1]);
+/***/ })
+/******/ ]);
+});
+//# sourceMappingURL=local-storage.js.map
