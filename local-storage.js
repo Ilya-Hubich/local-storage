@@ -12,7 +12,12 @@ function accessor(key, value) {
 }
 
 function get(key) {
-    return JSON.parse(ls.getItem(key));
+    try {
+        return JSON.parse(ls.getItem(key));
+    } catch (e) {
+        // for backward capability
+        return ls.getItem(key);
+    }
 }
 
 function set(key, value) {
